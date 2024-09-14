@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown Timer</title>
+    <link rel="icon" type="image/x-icon" href="https://images.sftcdn.net/images/t_app-icon-m/p/459ac38a-96d0-11e6-b687-00163ed833e7/1317321988/internet-explorer-7-logo.png">
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white; /* Set all text to white */
+            background-color: black; /* Optional: Set background to black for better contrast */
+            font-size: 2em; /* Enlarge text */
+        }
+        .container {
+            text-align: center;
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        #txt {
+            position: absolute;
+            bottom: 20%; /* Adjust this value to position the clock higher or lower */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #countdown {
+            position: absolute;
+            bottom: 10%; /* Adjust this value to position the countdown higher or lower */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p id="greeting"></p>
+        <h2>Jake :)</h2>
+        <p id="txt"></p>
+        <p id="countdown"></p> <!-- Added countdown element -->
+    </div>
+
+    <script>
+        // Greeting Script
+        const time = new Date().getHours();
+        let greeting;
+        if (time < 10) {
+            greeting = "Good morning";       
+        } else if (time < 18) {
+            greeting = "Good afternoon";
+        } else if (time > 13) {            
+            greeting = "Goodnight";
+        } else {
+            greeting = "Good evening";
+        }
+        document.getElementById("greeting").innerHTML = greeting;
+
+        // Clock Script
+        function startTime() {
+            const today = new Date();
+            let h = today.getHours();
+            let m = today.getMinutes();
+            let s = today.getSeconds();
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12;
+            h = h ? h : 12; // the hour '0' should be '12'
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('txt').innerHTML = h + ":" + m + ":" + s + " " + ampm;
+            setTimeout(startTime, 1000);
+        }
+
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
+
+        startTime();
+
+        // Countdown Script
+        function updateCountdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let targetDate = new Date(`September 29, ${currentYear}`);
+
+            if (now > targetDate) {
+                targetDate = new Date(`September 29, ${currentYear + 1}`);
+            }
+
+            const distance = targetDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            setTimeout(updateCountdown, 1000);
+        }
+
+        updateCountdown();
+    </script>
+</body>
+</html>
