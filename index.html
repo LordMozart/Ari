@@ -29,16 +29,9 @@
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 
                          0 0 30px rgba(255, 255, 255, 0.6),
                          0 0 40px rgba(255, 255, 255, 0.4);
-            transition: transform 0.2s ease, font-size 0.2s ease;
+            transition: transform 0.1s ease;
             display: inline-block;
             padding: 10px; /* Added padding for hitbox */
-        }
-
-        /* Hover Effect */
-        .glow:hover {
-            font-size: 2.1em; /* Slightly increase font size on hover */
-            transform: scale(1.05); /* Scale up text slightly */
-            transform-origin: center center; /* Ensure scaling happens from the center */
         }
 
         .container {
@@ -132,6 +125,20 @@
         }
 
         updateCountdown();
+
+        // Text enlarges based on cursor proximity
+        document.addEventListener('mousemove', (e) => {
+            const elements = document.querySelectorAll('.glow');
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+                const scaleFactor = Math.max(1, 2 - distance / 300); // Adjust scale based on distance
+                element.style.transform = `scale(${scaleFactor})`;
+            });
+        });
     </script>
 </body>
 </html>
