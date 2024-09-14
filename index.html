@@ -128,25 +128,36 @@
         const countdownElement = document.getElementById('countdown');
         const maxScale = 1.1; // Maximum scale factor (10% increase)
 
-        document.addEventListener('mousemove', (e) => {
+        function calculateDistance(x1, y1, x2, y2) {
+            return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+        }
+
+        function updateTextSizeAndGlow(e) {
             const txtRect = txtElement.getBoundingClientRect();
             const countdownRect = countdownElement.getBoundingClientRect();
             const txtCenterX = txtRect.left + txtRect.width / 2;
             const txtCenterY = txtRect.top + txtRect.height / 2;
             const countdownCenterX = countdownRect.left + countdownRect.width / 2;
             const countdownCenterY = countdownRect.top + countdownRect.height / 2;
-            const distanceTxt = Math.sqrt((e.clientX - txtCenterX) ** 2 + (e.clientY - txtCenterY) ** 2);
-            const distanceCountdown = Math.sqrt((e.clientX - countdownCenterX) ** 2 + (e.clientY - countdownCenterY) ** 2);
+
+            const distanceTxt = calculateDistance(e.clientX, e.clientY, txtCenterX, txtCenterY);
+            const distanceCountdown = calculateDistance(e.clientX, e.clientY, countdownCenterX, countdownCenterY);
 
             const maxDistance = Math.max(window.innerWidth, window.innerHeight);
-            const scaleFactorTxt = Math.max(1, 1 - (distanceTxt / maxDistance));
-            const scaleFactorCountdown = Math.max(1, 1 - (distanceCountdown / maxDistance));
-            const fontSizeTxt = 2 + (maxScale - 1) * (1 - scaleFactorTxt); // Enlarge up to 10%
-            const fontSizeCountdown = 2 + (maxScale - 1) * (1 - scaleFactorCountdown); // Enlarge up to 10%
-            
-            txtElement.style.fontSize = `${fontSizeTxt}em`;
-            countdownElement.style.fontSize = `${fontSizeCountdown}em`;
-        });
+            const scaleFactorTxt = Math.max(0, (1 - distanceTxt / maxDistance));
+            const scaleFactorCountdown = Math.max(0, (1 - distanceCountdown / maxDistance));
+
+            const scaleTxt = 1 + (maxScale - 1) * scaleFactorTxt; // Scale up to 10%
+            const scaleCountdown = 1 + (maxScale - 1) * scaleFactorCountdown; // Scale up to 10%
+
+            txtElement.style.fontSize = `${scaleTxt}em`;
+            countdownElement.style.fontSize = `${scaleCountdown}em`;
+
+            txtElement.style.textShadow = `0 0 ${5 + (maxScale - 1) * scaleFactorTxt * 10}px rgba(255, 255, 255, 0.8)`;
+            countdownElement.style.textShadow = `0 0 ${5 + (maxScale - 1) * scaleFactorCountdown * 10}px rgba(255, 255, 255, 0.8)`;
+        }
+
+        document.addEventListener('mousemove', updateTextSizeAndGlow);
     </script>
 </body>
 </html>
