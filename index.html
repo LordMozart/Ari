@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Countdown Timer</title>
+    <title>I may or may not have "borrowed" some of this code</title>
     <link rel="icon" type="image/x-icon" href="logo.jpg">
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
@@ -50,7 +50,7 @@
     <div id="particles-js"></div> <!-- Added particle effect container -->
     <div class="container">
         <p id="greeting"></p>
-        <h2>Jake :)</h2>
+        <h2>Ari</h2>
         <p id="txt"></p>
         <p id="countdown"></p> <!-- Added countdown element -->
     </div>
@@ -173,11 +173,11 @@
         const time = new Date().getHours();
         let greeting;
         if (time < 10) {
-            greeting = "Good morning";       
+            greeting = "mornin sweepy head";       
         } else if (time < 18) {
-            greeting = "Good afternoon";
+            greeting = "gwood afwetermoon";
         } else if (time > 13) {            
-            greeting = "Goodnight";
+            greeting = "sweep twihgt";
         } else {
             greeting = "Good evening";
         }
@@ -209,10 +209,10 @@
         function updateCountdown() {
             const now = new Date();
             const currentYear = now.getFullYear();
-            let targetDate = new Date(`September 29, ${currentYear}`);
+            let targetDate = new Date(`September 21, ${currentYear}`);
 
             if (now > targetDate) {
-                targetDate = new Date(`September 29, ${currentYear + 1}`);
+                targetDate = new Date(`September 21, ${currentYear + 1}`);
             }
 
             const distance = targetDate - now;
