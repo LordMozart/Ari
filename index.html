@@ -48,14 +48,18 @@
             margin-top: 10px;
             font-size: 0.8em; /* Adjust font size for the text under the image */
         }
+        .glow {
+            color: white; /* Text color */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.3); /* Initial glow effect */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <p id="greeting"></p>
-        <h2>Ari :P</h2>
-        <p id="txt"></p>
-        <p id="countdown"></p> <!-- Added countdown element -->
+        <p id="greeting" class="glow"></p>
+        <h2 class="glow">Ari :P</h2>
+        <p id="txt" class="glow"></p>
+        <p id="countdown" class="glow"></p> <!-- Added countdown element -->
     </div>
 
     <script>
@@ -125,21 +129,28 @@
 
         document.addEventListener('mousemove', (e) => {
             const { clientX, clientY } = e;
-            const { left, top, width, height } = txtElement.getBoundingClientRect();
-            const centerX = left + width / 2;
-            const centerY = top + height / 2;
-            const distance = Math.sqrt((clientX - centerX) ** 2 + (clientY - centerY) ** 2);
+            const txtRect = txtElement.getBoundingClientRect();
+            const countdownRect = countdownElement.getBoundingClientRect();
+            const txtCenterX = txtRect.left + txtRect.width / 2;
+            const txtCenterY = txtRect.top + txtRect.height / 2;
+            const countdownCenterX = countdownRect.left + countdownRect.width / 2;
+            const countdownCenterY = countdownRect.top + countdownRect.height / 2;
+            const distanceTxt = Math.sqrt((clientX - txtCenterX) ** 2 + (clientY - txtCenterY) ** 2);
+            const distanceCountdown = Math.sqrt((clientX - countdownCenterX) ** 2 + (clientY - countdownCenterY) ** 2);
 
             const maxDistance = Math.max(window.innerWidth, window.innerHeight);
-            const scaleFactor = Math.max(1, 2 - (distance / maxDistance));
-            const fontSize = 2 + (1 - scaleFactor) * 10; // Adjust the font size range as needed
-            const glowIntensity = Math.max(0, (1 - distance / maxDistance) * 20); // Adjust glow intensity as needed
+            const scaleFactorTxt = Math.max(1, 2 - (distanceTxt / maxDistance));
+            const scaleFactorCountdown = Math.max(1, 2 - (distanceCountdown / maxDistance));
+            const fontSizeTxt = 2 + (1 - scaleFactorTxt) * 10; // Adjust the font size range as needed
+            const fontSizeCountdown = 2 + (1 - scaleFactorCountdown) * 10; // Adjust the font size range as needed
+            const glowIntensityTxt = Math.max(0, (1 - distanceTxt / maxDistance) * 20); // Adjust glow intensity as needed
+            const glowIntensityCountdown = Math.max(0, (1 - distanceCountdown / maxDistance) * 20); // Adjust glow intensity as needed
 
-            txtElement.style.fontSize = `${fontSize}em`;
-            txtElement.style.textShadow = `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.8)`;
+            txtElement.style.fontSize = `${fontSizeTxt}em`;
+            txtElement.style.textShadow = `0 0 ${glowIntensityTxt}px rgba(255, 255, 255, 0.8)`;
 
-            countdownElement.style.fontSize = `${fontSize}em`;
-            countdownElement.style.textShadow = `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.8)`;
+            countdownElement.style.fontSize = `${fontSizeCountdown}em`;
+            countdownElement.style.textShadow = `0 0 ${glowIntensityCountdown}px rgba(255, 255, 255, 0.8)`;
         });
     </script>
 </body>
