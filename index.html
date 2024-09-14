@@ -31,12 +31,14 @@
                          0 0 40px rgba(255, 255, 255, 0.4);
             transition: transform 0.2s ease, font-size 0.2s ease;
             display: inline-block;
+            padding: 10px; /* Added padding for hitbox */
         }
 
         /* Hover Effect */
         .glow:hover {
             font-size: 2.5em; /* Increase font size on hover */
-            transform: scale(1.2); /* Scale up text slightly */
+            transform: scale(1.2); /* Scale up text */
+            transform-origin: center center; /* Ensure scaling happens from the center */
         }
 
         .container {
@@ -59,17 +61,6 @@
 
         #countdown {
             bottom: 10%;
-        }
-
-        #centered-image {
-            margin-top: 20px;
-            width: 200px; /* Adjust image width */
-            height: auto;
-        }
-
-        #image-text {
-            margin-top: 10px;
-            font-size: 0.8em; /* Adjust font size for the text under the image */
         }
     </style>
 </head>
@@ -142,21 +133,6 @@
         }
 
         updateCountdown();
-
-        // Mouse Follow Rotation
-        document.querySelectorAll('.glow').forEach((element) => {
-            element.addEventListener('mousemove', (e) => {
-                const rect = element.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                const angle = Math.atan2(y, x) * (180 / Math.PI); // Convert to degrees
-                element.style.transform = `scale(1.2) rotate(${angle}deg)`; // Rotate towards mouse
-            });
-
-            element.addEventListener('mouseleave', () => {
-                element.style.transform = 'scale(1) rotate(0deg)'; // Reset rotation on mouse leave
-            });
-        });
     </script>
 </body>
 </html>
