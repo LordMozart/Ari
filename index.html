@@ -123,6 +123,7 @@
         const txtElement = document.getElementById('txt');
         const countdownElement = document.getElementById('countdown');
         const maxScale = 1.3; // Maximum scale factor (30% increase)
+        const distanceThreshold = 300; // Distance threshold in pixels
 
         function calculateDistance(x1, y1, x2, y2) {
             return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
@@ -139,9 +140,9 @@
             const distanceTxt = calculateDistance(e.clientX, e.clientY, txtCenterX, txtCenterY);
             const distanceCountdown = calculateDistance(e.clientX, e.clientY, countdownCenterX, countdownCenterY);
 
-            const maxDistance = Math.max(window.innerWidth, window.innerHeight);
-            const scaleFactorTxt = Math.max(0, (1 - distanceTxt / maxDistance));
-            const scaleFactorCountdown = Math.max(0, (1 - distanceCountdown / maxDistance));
+            // Calculate scaling factor based on distance, ensuring text shrinks if too far away
+            const scaleFactorTxt = Math.max(0, Math.min(1, 1 - (distanceTxt - distanceThreshold) / distanceThreshold));
+            const scaleFactorCountdown = Math.max(0, Math.min(1, 1 - (distanceCountdown - distanceThreshold) / distanceThreshold));
 
             const scaleTxt = 1 + (maxScale - 1) * scaleFactorTxt; // Scale up to 30%
             const scaleCountdown = 1 + (maxScale - 1) * scaleFactorCountdown; // Scale up to 30%
