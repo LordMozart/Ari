@@ -29,17 +29,15 @@
             height: 100%;
             width: 100%;
         }
-        #txt {
+        #txt, #countdown {
             position: absolute;
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
+            transition: font-size 0.2s, text-shadow 0.2s; /* Smooth transition */
         }
         #countdown {
-            position: absolute;
             bottom: 10%;
-            left: 50%;
-            transform: translateX(-50%);
         }
         #centered-image {
             margin-top: 20px;
@@ -54,7 +52,6 @@
 </head>
 <body>
     <div class="container">
-
         <p id="greeting"></p>
         <h2>Ari :P</h2>
         <p id="txt"></p>
@@ -121,6 +118,29 @@
         }
 
         updateCountdown();
+
+        // Glow and resize effect
+        const txtElement = document.getElementById('txt');
+        const countdownElement = document.getElementById('countdown');
+
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const { left, top, width, height } = txtElement.getBoundingClientRect();
+            const centerX = left + width / 2;
+            const centerY = top + height / 2;
+            const distance = Math.sqrt((clientX - centerX) ** 2 + (clientY - centerY) ** 2);
+
+            const maxDistance = Math.max(window.innerWidth, window.innerHeight);
+            const scaleFactor = Math.max(1, 2 - (distance / maxDistance));
+            const fontSize = 2 + (1 - scaleFactor) * 10; // Adjust the font size range as needed
+            const glowIntensity = Math.max(0, (1 - distance / maxDistance) * 20); // Adjust glow intensity as needed
+
+            txtElement.style.fontSize = `${fontSize}em`;
+            txtElement.style.textShadow = `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.8)`;
+
+            countdownElement.style.fontSize = `${fontSize}em`;
+            countdownElement.style.textShadow = `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.8)`;
+        });
     </script>
 </body>
 </html>
