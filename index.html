@@ -16,53 +16,52 @@
             height: 100vh;
             margin: 0;
             color: white;
-            background-image: url('wallpaperari.jpg'); /* Set background image */
+            background-image: url('aridog.jpg'); /* Set background image */
             background-size: cover; /* Make background cover the entire page */
             background-position: center;
             background-repeat: no-repeat;
-            font-family: Arial, sans-serif; /* Set font to Arial */
             font-size: 2em;
+            font-family: Arial, sans-serif; /* Set font to Arial */
         }
-
-        /* Text Glow Effect */
-        .glow {
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 
-                         0 0 30px rgba(255, 255, 255, 0.6),
-                         0 0 40px rgba(255, 255, 255, 0.4);
-            transition: transform 0.1s ease;
-            display: inline-block;
-            padding: 10px; /* Added padding for hitbox */
-        }
-
         .container {
             text-align: center;
             position: relative;
             height: 100%;
             width: 100%;
         }
-
-        #txt, #countdown, h2 {
+        #txt {
             position: absolute;
+            bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            cursor: pointer;
         }
-
-        #txt {
-            bottom: 20%;
-        }
-
         #countdown {
+            position: absolute;
             bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #centered-image {
+            margin-top: 20px;
+            width: 200px; /* Adjust image width */
+            height: auto;
+        }
+        #image-text {
+            margin-top: 10px;
+            font-size: 0.8em; /* Adjust font size for the text under the image */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p id="greeting" class="glow"></p>
-        <h2 class="glow">Ari :P</h2>
-        <p id="txt" class="glow"></p>
-        <p id="countdown" class="glow"></p> <!-- Added countdown element -->
+        <!-- Centered Image -->
+        <img id="centered-image" src="image.jpg" alt="Centered Image">
+        <p id="image-text">This is a centered image.</p>
+
+        <p id="greeting"></p>
+        <h2>Ari :P</h2>
+        <p id="txt"></p>
+        <p id="countdown"></p> <!-- Added countdown element -->
     </div>
 
     <script>
@@ -125,20 +124,6 @@
         }
 
         updateCountdown();
-
-        // Text enlarges based on cursor proximity
-        document.addEventListener('mousemove', (e) => {
-            const elements = document.querySelectorAll('.glow');
-            elements.forEach(element => {
-                const rect = element.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-
-                const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
-                const scaleFactor = Math.max(1, 2 - distance / 300); // Adjust scale based on distance
-                element.style.transform = `scale(${scaleFactor})`;
-            });
-        });
     </script>
 </body>
 </html>
